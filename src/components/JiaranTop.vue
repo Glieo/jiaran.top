@@ -4,10 +4,12 @@ import topUrl from "../assets/top.gif";
 import middleUrl from "../assets/middle.png";
 import bodyUrl from "../assets/body.gif";
 
+const st_height = ref(0);
 const init_height = ref(0);
 const grow_height = ref(0);
 const np = "勇敢牛牛 不怕困难";
 const mua = ref("偷偷mua然然一下");
+const st_show = ref(false);
 const egg = ref(false);
 var doc = document.documentElement;
 
@@ -32,6 +34,11 @@ function setHeight() {
   if (doc.clientWidth < 310) {
     factor = doc.clientWidth / 310;
   }
+  if (doc.clientHeight < 700 * factor) {
+    st_height.value = doc.clientHeight - 100;
+  } else {
+    st_height.value = 600;
+  }
   height = (doc.clientHeight - 500 * factor) / (50 * factor);
   for (let index = grow_height.value; index < height; index++) {
     growup();
@@ -46,10 +53,15 @@ function growup() {
     grow_height.value++;
     doc.scrollTop += 50;
   }
+  if (doc.scrollHeight - doc.scrollTop < 700) {
+    st_show.value = false;
+  } else {
+    st_show.value = true;
+  }
 }
 //触摸草莓
 function touchStrawberry() {
-  if (Math.abs(doc.scrollHeight - doc.scrollTop - doc.clientHeight) < 10) {
+  if (doc.scrollHeight - doc.scrollTop - doc.clientHeight < 10) {
     location.reload();
   } else {
     window.scrollTo({ top: doc.scrollHeight, behavior: "smooth" });
@@ -71,7 +83,12 @@ function touchTop() {
 </script>
 
 <template>
-  <div id="stature" @click="touchStrawberry()">
+  <div
+    id="stature"
+    v-show="st_show"
+    :style="{ bottom: st_height + 'px' }"
+    @click="touchStrawberry()"
+  >
     🍓:{{ grow_height + init_height }}cm
   </div>
   <div class="diana" @click="touchTop()">
@@ -106,7 +123,6 @@ function touchTop() {
   font-size: 20px;
   left: 155px;
   right: 0px;
-  bottom: 600px;
   width: 100px;
   height: 30px;
   line-height: 30px;
