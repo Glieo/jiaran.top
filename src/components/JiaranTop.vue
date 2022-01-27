@@ -129,5 +129,6 @@ function touchTop() {
   margin: auto;
   cursor: pointer;
   position: fixed;
+  z-index: 1;
 }
 </style>
