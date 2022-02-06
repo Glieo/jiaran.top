@@ -11,9 +11,11 @@ const np = "勇敢牛牛 不怕困难";
 const mua = ref("偷偷mua然然一下");
 const st_show = ref(false);
 const egg = ref(false);
-var doc = document.documentElement;
+const doc = document.documentElement;
+var diana_body: HTMLElement | null;
 
 onMounted(() => {
+  diana_body = document.getElementById("diana_body");
   setHeight();
   window.location.href = "#foot";
   init_height.value = 100 - grow_height.value;
@@ -31,11 +33,12 @@ onMounted(() => {
 function setHeight() {
   var height;
   var factor = 1;
-  if (doc.clientWidth < 310) {
-    factor = doc.clientWidth / 310;
+  var body_Width = diana_body!.clientWidth;
+  if (body_Width < 310) {
+    factor = body_Width / 310;
   }
   if (doc.clientHeight < 700 * factor) {
-    st_height.value = doc.clientHeight - 100;
+    st_height.value = doc.clientHeight / factor - 100;
   } else {
     st_height.value = 600;
   }
@@ -53,7 +56,7 @@ function growup() {
     grow_height.value++;
     doc.scrollTop += 50;
   }
-  if (doc.scrollHeight - doc.scrollTop < 700) {
+  if (diana_body!.getBoundingClientRect().top < 100) {
     st_show.value = false;
   } else {
     st_show.value = true;
@@ -91,17 +94,18 @@ function touchTop() {
   >
     🍓:{{ grow_height + init_height }}cm
   </div>
-  <div class="diana" @click="touchTop()">
+  <div class="diana">
     <img
       alt="Diana top"
       style="cursor: pointer"
+      @click="touchTop()"
       :src="grow_height + init_height == 180 ? topUrl : middleUrl"
     />
   </div>
   <div class="diana" v-for="index of grow_height">
     <img alt="Diana middle" :src="middleUrl" />
   </div>
-  <div class="diana">
+  <div class="diana" id="diana_body">
     <img alt="Diana body" :src="bodyUrl" />
   </div>
   <div id="foot" style="color: #ffffff" :class="{ niu: egg }">{{ mua }}</div>
@@ -110,6 +114,10 @@ function touchTop() {
 <style scoped>
 .diana {
   line-height: 0;
+}
+.diana img {
+  height: auto;
+  max-width: 100%;
 }
 .niu {
   font-size: 25px;
