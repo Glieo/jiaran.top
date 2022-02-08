@@ -13,6 +13,7 @@ const st_show = ref(false);
 const egg = ref(false);
 const doc = document.documentElement;
 var diana_body: HTMLElement | null;
+var factor = 1;
 
 onMounted(() => {
   diana_body = document.getElementById("diana_body");
@@ -31,18 +32,17 @@ onMounted(() => {
 
 //初生
 function setHeight() {
-  var height;
-  var factor = 1;
   var body_Width = diana_body!.clientWidth;
   if (body_Width < 310) {
     factor = body_Width / 310;
   }
-  if (doc.clientHeight < 700 * factor) {
-    st_height.value = doc.clientHeight / factor - 100;
+  doc.style.fontSize = 16 * factor + "px";
+  if (doc.clientHeight < 730 * factor) {
+    st_height.value = doc.clientHeight - 80 * factor;
   } else {
-    st_height.value = 600;
+    st_height.value = 650 * factor;
   }
-  height = (doc.clientHeight - 500 * factor) / (50 * factor);
+  var height = (doc.clientHeight - 500 * factor) / (50 * factor);
   for (let index = grow_height.value; index < height; index++) {
     growup();
   }
@@ -50,13 +50,13 @@ function setHeight() {
 //长高
 function growup() {
   if (
-    doc.scrollTop < 100 &&
+    doc.scrollTop < 100 * factor &&
     (egg.value || grow_height.value + init_height.value < 180)
   ) {
     grow_height.value++;
-    doc.scrollTop += 50;
+    doc.scrollTop += 50 * factor;
   }
-  if (diana_body!.getBoundingClientRect().top < 100) {
+  if (diana_body!.getBoundingClientRect().top < 150 * factor) {
     st_show.value = false;
   } else {
     st_show.value = true;
@@ -108,7 +108,13 @@ function touchTop() {
   <div class="diana" id="diana_body">
     <img alt="Diana body" :src="bodyUrl" />
   </div>
-  <div id="foot" style="color: #ffffff" :class="{ niu: egg }">{{ mua }}</div>
+  <div
+    id="foot"
+    style="color: #ffffff; font-size: 2rem; font-weight: 700"
+    :class="{ niu: egg }"
+  >
+    {{ mua }}
+  </div>
 </template>
 
 <style scoped>
@@ -120,20 +126,18 @@ function touchTop() {
   max-width: 100%;
 }
 .niu {
-  font-size: 25px;
-  font-weight: 700;
   background-image: linear-gradient(to bottom, #e799b0, #db7d74);
-  background-clip: text;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 #stature {
-  font-size: 20px;
-  left: 155px;
-  right: 0px;
-  width: 100px;
-  height: 30px;
-  line-height: 30px;
+  right: 0;
+  left: 10rem;
+  width: 7rem;
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 1.5rem;
   margin: auto;
   cursor: pointer;
   position: fixed;
