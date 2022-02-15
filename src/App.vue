@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import ReloadPrompt from "./components/ReloadPrompt.vue";
 import JiaranTop from "./components/JiaranTop.vue";
 </script>
 
 <template>
+  <ReloadPrompt />
   <JiaranTop />
 </template>
 
