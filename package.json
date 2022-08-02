@@ -8,14 +8,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.31"
+    "vue": "^3.2.37"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.3.1",
-    "gh-pages": "^3.2.3",
-    "typescript": "^4.6.3",
-    "vite": "^2.9.1",
-    "vite-plugin-pwa": "^0.11.13",
-    "vue-tsc": "^0.33.9"
+    "@vitejs/plugin-vue": "^3.0.1",
+    "gh-pages": "^4.0.0",
+    "typescript": "^4.7.4",
+    "vite": "^3.0.4",
+    "vite-plugin-pwa": "^0.12.3",
+    "vue-tsc": "^0.39.4"
   }
 }
